@@ -31,4 +31,3 @@ jobs:
       # 运行构建脚本
       - name: 构建 VuePress 站点
         run: npm run docs:build # 替换为你的构建命令
-        ls -la dist/
