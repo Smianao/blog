@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy VuePress to Server
 
 on:
   push:
@@ -6,32 +6,37 @@ on:
   workflow_dispatch:
 
 jobs:
-  docs:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # 获取完整提交历史
 
-      # 🌟 修复点：将 working-directory 抬出 with 块
-      - name: 设置 Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22  # 注意：推荐使用 VuePress 官方认证版本
-          cache: npm
-        working-directory: ./src  # [!code focus] 正确的缩进层级
+          node-version: "22"  # LTS版本更稳定
+          cache: "npm"
+        working-directory: "./docs"  # ❗必须顶格书写，不要缩进
 
-      - name: 安装依赖
-        run: npm ci
-        working-directory: ./src
+      - name: Install Dependencies
+        run: npm ci --prefer-offline  # 优先使用本地缓存
+        working-directory: "./docs"
 
-      - name: 构建 VuePress 站点
+      - name: Build Project
         run: npm run docs:build
-        working-directory: ./src
+        working-directory: "./docs"
 
-      - name: Upload artifact
+      - name: Verify Build Output
+        run: ls -lah .vuepress/dist  # 确认构建产物存在
+        working-directory: "./docs"
+
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: src/.vuepress/dist
+          name: vuepress-dist  # 制品名称建议小写+连字符
+          path: "docs/.vuepress/dist"  # 💡直接使用项目根目录的相对路径
+          retention-days: 3  # 自动清理旧制品
