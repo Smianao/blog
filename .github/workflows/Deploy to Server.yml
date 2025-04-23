@@ -2,7 +2,7 @@ name: Deploy to Server
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -10,30 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 步骤1: 获取仓库代码
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 删除原本的 pnpm 安装步骤
-      # ----------- CHANGED HERE ----------- ↓
+      # 步骤2: 设置 Node.js 环境（修正了工作目录参数位置） ⚠️
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          # 缓存策略改为 npm
-          cache: npm 
-          working-directory: ./src
-      - name: 安装依赖
-        # 改用 npm 的 clean install 方式（需要存在 package-lock.json）
-        run: npm ci  
+          node-version: 20  # VuePress 推荐使用 Node 16/18/20 版本（22可能有兼容问题）
+          cache: npm
+        working-directory: ./src  # 正确的参数层级
 
+      # 步骤3: 安装依赖（添加工作目录参数） ⚠️
+      - name: 安装依赖
+        run: npm ci
+        working-directory: ./src  # 必要的工作目录指定
+
+      # 步骤4: 构建项目（添加工作目录参数） ⚠️
       - name: 构建 VuePress 站点
-        # 修改脚本执行方式为 npm
         run: npm run docs:build
         working-directory: ./src
-        
+
+      # 步骤5: 上传产物（修复缩进错误） 🔥核心错误点🔥
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-        name: dist
-        path: src/.vuepress/dist
+          name: dist
+          path: src/.vuepress/dist  # 确保与真实构建路径匹配
