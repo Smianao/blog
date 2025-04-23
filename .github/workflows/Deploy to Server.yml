@@ -10,34 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 步骤1：获取代码（无需修改）
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 步骤2：修改点（关键错误修正） 🔥
+      # 🌟 修复点：将 working-directory 抬出 with 块
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22  # 注意：推荐使用 VuePress 官方认证版本
           cache: npm
-        working-directory: ./src  # [!code --] ❌ 错误位置
-        # 正确位置应在外层缩进层级 -->  [!code ++]
+        working-directory: ./src  # [!code focus] 正确的缩进层级
 
-      # 步骤3：安装依赖（保持正确）
       - name: 安装依赖
         run: npm ci
         working-directory: ./src
 
-      # 步骤4：构建项目（保持正确）
       - name: 构建 VuePress 站点
         run: npm run docs:build
         working-directory: ./src
 
-      # 步骤5：上传产物（已修复）
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dist
           path: src/.vuepress/dist
-
