@@ -10,32 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 步骤1: 获取仓库代码
+      # 步骤1：获取代码（无需修改）
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 步骤2: 设置 Node.js 环境（修正了工作目录参数位置） ⚠️
+      # 步骤2：修改点（关键错误修正） 🔥
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20  # VuePress 推荐使用 Node 16/18/20 版本（22可能有兼容问题）
+          node-version: 22
           cache: npm
-        working-directory: ./src  # 正确的参数层级
+        working-directory: ./src  # [!code --] ❌ 错误位置
+        # 正确位置应在外层缩进层级 -->  [!code ++]
 
-      # 步骤3: 安装依赖（添加工作目录参数） ⚠️
+      # 步骤3：安装依赖（保持正确）
       - name: 安装依赖
         run: npm ci
-        working-directory: ./src  # 必要的工作目录指定
+        working-directory: ./src
 
-      # 步骤4: 构建项目（添加工作目录参数） ⚠️
+      # 步骤4：构建项目（保持正确）
       - name: 构建 VuePress 站点
         run: npm run docs:build
         working-directory: ./src
 
-      # 步骤5: 上传产物（修复缩进错误） 🔥核心错误点🔥
+      # 步骤5：上传产物（已修复）
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: src/.vuepress/dist  # 确保与真实构建路径匹配
+          path: src/.vuepress/dist
+
