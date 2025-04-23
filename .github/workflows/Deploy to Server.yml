@@ -1,39 +1,50 @@
-name: Docs Deployment
-on: [push, workflow_dispatch]
+name: Deploy VuePress to Server
+
+on:
+  push:
+    branches:
+      - master  # 监听 `main` 分支的推送事件
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    # Checkout 源代码
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-          cache-dependency-path: src/package-lock.json
+    # 设置 Node.js 环境
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 22  # VuePress 推荐使用 Node.js 16.x 或更高版本
 
-      - name: Install Dependencies
-        run: npm ci --audit=false
-        working-directory: ./src
+    # 安装依赖包
+    - name: Install dependencies
+      run: |
+        npm ci
 
-      - name: Build Docs Site
-        run: npm run docs:build
-        working-directory: ./src
+    # 构建 VuePress 静态网站
+    - name: Build VuePress site
+      run: |
+        npm run build  # package.json 中的 build 脚本应该是 `vuepress build src`
+    
+    # # 使用 scp 将静态文件部署到目标服务器
+    # - name: Deploy to server
+    #   env:
+    #     SERVER_IP: ${{ secrets.SERVER_IP }}
+    #     SERVER_USER: ${{ secrets.SERVER_USER }}
+    #     SERVER_PATH: ${{ secrets.SERVER_PATH }}
+    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+    #   run: |
+    #     # 创建 SSH 文件夹，并配置私钥
+    #     mkdir -p ~/.ssh
+    #     echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    #     chmod 600 ~/.ssh/id_rsa
 
-      # ✅ 关键修正：使用最新的 v4 版本且路径校准
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4  # 🚨 必须使用v4版本
-        with:
-          name: docs-dist
-          path: |
-            src/.vuepress/dist
-            !**/node_modules   # 排除干扰文件
-          retention-days: 3
+    #     # 上传构建后的静态文件到服务器
+    #     scp -r .vuepress/dist/* $SERVER_USER@$SERVER_IP:$SERVER_PATH
 
-      # 可选部署步骤
-      - name: Zip Artifact
-        run: zip -r dist.zip docs/.vuepress/dist
+    #     # 可选：验证部署是否成功
+    #     echo "Deployment completed successfully."
