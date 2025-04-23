@@ -1,48 +1,39 @@
-name: Deploy Docs to Production Server
-
-on:
-  push:
-    branches: [ master ]
-  workflow_dispatch:
+name: Docs Deployment
+on: [push, workflow_dispatch]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js Environment
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 22
           cache: 'npm'
+          cache-dependency-path: src/package-lock.json
 
-      # ✅ 关键步骤：所有目录操作在指定位置执行
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --audit=false
         working-directory: ./src
 
-      - name: Build Documentation
+      - name: Build Docs Site
         run: npm run docs:build
         working-directory: ./src
 
-      # 🚨 重点修正：第23行已移除错误的 working-directory
-      - name: Upload Build Output
-        uses: actions/upload-artifact@v3
+      # ✅ 关键修正：使用最新的 v4 版本且路径校准
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4  # 🚨 必须使用v4版本
         with:
-          name: vuepress-dist
-          path: src/.vuepress/dist  # 使用绝对路径
+          name: docs-dist
+          path: |
+            src/.vuepress/dist
+            !**/node_modules   # 排除干扰文件
           retention-days: 3
 
-      # # 可选部署步骤（需自行配置SSH密钥）
-      # - name: Deploy via SSH
-      #   uses: appleboy/ssh-action@v1.2.0
-      #   with:
-      #     host: ${{ secrets.SERVER_IP }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       sudo rm -rf /var/www/docs/*
-      #       sudo cp -r ~/docs/.vuepress/dist/* /var/www/docs/
+      # 可选部署步骤
+      - name: Zip Artifact
+        run: zip -r dist.zip docs/.vuepress/dist
