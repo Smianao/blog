@@ -22,7 +22,7 @@ jobs:
           node-version: 22
           # 缓存策略改为 npm
           cache: npm 
-
+          working-directory: ./src
       - name: 安装依赖
         # 改用 npm 的 clean install 方式（需要存在 package-lock.json）
         run: npm ci  
@@ -30,3 +30,10 @@ jobs:
       - name: 构建 VuePress 站点
         # 修改脚本执行方式为 npm
         run: npm run docs:build
+        working-directory: ./src
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+        name: dist
+        path: src/.vuepress/dist
