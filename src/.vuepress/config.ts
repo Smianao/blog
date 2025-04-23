@@ -10,7 +10,6 @@ export default defineUserConfig({
   title: "鼠标迁徙",
   description: "分享电脑技巧、软件教程，以及系统相关的文章！",
   theme,
-  dest: "src/.vuepress/dist",
 
   //调用搜索插件 
   plugins: [

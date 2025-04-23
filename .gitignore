@@ -1,6 +1,3 @@
 node_modules/
-src/.vuepress/dist/
-src/.vuepress/dist/*
-!src/.vuepress/dist/.gitkeep
 src/.vuepress/.temp/
 src/.vuepress/.cache/
