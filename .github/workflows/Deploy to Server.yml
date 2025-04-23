@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"  # LTS版本更稳定
+          node-version: "20"  # LTS版本更稳定
           cache: "npm"
         working-directory: "./docs"  # ❗必须顶格书写，不要缩进
 
