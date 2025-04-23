@@ -1,50 +1,33 @@
-name: Deploy VuePress to Server
+name: docs
 
 on:
+  # 每当 push 到 main 分支时触发部署
   push:
-    branches:
-      - master  # 监听 `main` 分支的推送事件
+    branches: [master]
+  # 手动触发部署
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  docs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout 源代码
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          # “最近更新时间” 等 git 日志相关信息，需要拉取全部提交记录
+          fetch-depth: 0
 
-    # 设置 Node.js 环境
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 22  # VuePress 推荐使用 Node.js 16.x 或更高版本
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          # 选择要使用的 node 版本
+          node-version: 22 # VuePress 推荐 Node.js 16.x 或以上
+          # 缓存 Node.js 依赖
+          cache: npm
 
-    # 安装依赖包
-    - name: Install dependencies
-      run: |
-        npm ci
+      - name: 安装依赖
+        run: npm ci # 使用 npm 的安装方式，`ci` 确保依赖版本固定
 
-    # 构建 VuePress 静态网站
-    - name: Build VuePress site
-      run: |
-        npm run build  # package.json 中的 build 脚本应该是 `vuepress build src`
-    
-    # # 使用 scp 将静态文件部署到目标服务器
-    # - name: Deploy to server
-    #   env:
-    #     SERVER_IP: ${{ secrets.SERVER_IP }}
-    #     SERVER_USER: ${{ secrets.SERVER_USER }}
-    #     SERVER_PATH: ${{ secrets.SERVER_PATH }}
-    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    #   run: |
-    #     # 创建 SSH 文件夹，并配置私钥
-    #     mkdir -p ~/.ssh
-    #     echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    #     chmod 600 ~/.ssh/id_rsa
-
-    #     # 上传构建后的静态文件到服务器
-    #     scp -r .vuepress/dist/* $SERVER_USER@$SERVER_IP:$SERVER_PATH
-
-    #     # 可选：验证部署是否成功
-    #     echo "Deployment completed successfully."
+      # 运行构建脚本
+      - name: 构建 VuePress 站点
+        run: npm run docs:build # 替换为你的构建命令
