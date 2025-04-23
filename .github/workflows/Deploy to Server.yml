@@ -18,25 +18,25 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"  # LTS版本更稳定
+          node-version: "22"  # LTS版本更稳定
           cache: "npm"
-        working-directory: "./docs"  # ❗必须顶格书写，不要缩进
+        working-directory: "./src"  # ❗必须顶格书写，不要缩进
 
       - name: Install Dependencies
         run: npm ci --prefer-offline  # 优先使用本地缓存
-        working-directory: "./docs"
+        working-directory: "./src"
 
       - name: Build Project
         run: npm run docs:build
-        working-directory: "./docs"
+        working-directory: "./src"
 
       - name: Verify Build Output
         run: ls -lah .vuepress/dist  # 确认构建产物存在
-        working-directory: "./docs"
+        working-directory: "./src"
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: vuepress-dist  # 制品名称建议小写+连字符
-          path: "docs/.vuepress/dist"  # 💡直接使用项目根目录的相对路径
+          path: "src/.vuepress/dist"  # 💡直接使用项目根目录的相对路径
           retention-days: 3  # 自动清理旧制品
