@@ -1,0 +1,32 @@
+// you can change config here
+:root {
+    --bg-1: url("https://webp.smianao.com/bg/1-light.svg") no-repeat
+      center/cover;
+	--bg-2: url("https://webp.smianao.com/bg/2-light.svg");
+	--bg-4: url("https://webp.smianao.com/bg/4-light.svg") no-repeat
+	  center/cover;
+	--bg-6: url("https://webp.smianao.com/bg/6-light.svg") no-repeat
+	  center/cover;
+    --bg-9: url("https://webp.smianao.com/bg/9-light.svg") no-repeat
+      center/cover;
+    --bg-10: url("https://webp.smianao.com/bg/10-light.svg")
+      no-repeat center/cover;
+    --bg-10-inverse: url("https://webp.smianao.com/bg/10-dark.svg")
+      no-repeat center/cover;
+  }
+  
+  [data-theme="dark"] {
+    --bg-1: url("https://webp.smianao.com/bg/1-dark.svg") no-repeat
+      center/cover;
+    --bg-2: url("https://webp.smianao.com/bg/2-dark.svg");
+    --bg-4: url("https://webp.smianao.com/bg/4-dark.svg") no-repeat
+      center/cover;
+    --bg-6: url("https://webp.smianao.com/bg/6-dark.svg") no-repeat
+      center/cover;
+    --bg-9: url("https://webp.smianao.com/bg/9-dark.svg") no-repeat
+      center/cover;
+    --bg-10: url("https://webp.smianao.com/bg/10-dark.svg") no-repeat
+      center/cover;
+    --bg-10-inverse: url("https://webp.smianao.com/bg/10-light.svg")
+      no-repeat center/cover;
+  }

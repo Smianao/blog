@@ -1,0 +1,20 @@
+import { navbar } from "vuepress-theme-hope";
+
+export default navbar([
+  "/",
+  {
+    text: "教程技巧",
+    icon: "fluent:hat-graduation-24-filled",
+    link: "/skill/README.md",
+  },
+  {
+    text: "软件资源",
+    icon: "mdi:microsoft-edge",
+    link: "/soft/README.md",
+  },
+  {
+    text: "系统相关",
+    icon: "lineicons:microsoft",
+    link: "/system/README.md",
+  },
+]);
