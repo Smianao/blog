@@ -1,0 +1,32 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 删除原本的 pnpm 安装步骤
+      # ----------- CHANGED HERE ----------- ↓
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          # 缓存策略改为 npm
+          cache: npm 
+
+      - name: 安装依赖
+        # 改用 npm 的 clean install 方式（需要存在 package-lock.json）
+        run: npm ci  
+
+      - name: 构建 VuePress 站点
+        # 修改脚本执行方式为 npm
+        run: npm run docs:build
