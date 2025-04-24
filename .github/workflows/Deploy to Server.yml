@@ -58,7 +58,7 @@ jobs:
           rm -f server_key.pem
 
   scrape:
-    needs: deploy
+    needs: docs
     runs-on: ubuntu-latest
     name: 重新抓取 MeiliSearch 文档
     steps:
