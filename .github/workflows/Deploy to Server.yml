@@ -1,4 +1,4 @@
-name: docs
+name: Deploy to Server.yml
 
 on:
   # 每当 push 到 main 分支时触发部署
@@ -32,13 +32,12 @@ jobs:
       - name: 构建 VuePress 站点
         run: npm run docs:build # 替换为你的构建命令
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with: 
-          path: src/.vuepress/dist
-        
-          # Step 5: 清空服务器文件夹并发布到服务器
-      - name: Setup SSH and deploy to server
+      # - name: Upload artifact
+      #   uses: actions/upload-pages-artifact@v3
+      #   with: 
+      #     path: src/.vuepress/dist
+          
+      - name: 清空服务器目录并上传新网页
         env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
