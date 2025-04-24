@@ -56,3 +56,25 @@ jobs:
           scp -i server_key.pem -r ./src/.vuepress/dist/* ${SERVER_USER}@${SERVER_HOST}:${DEPLOY_PATH}
           # 删除SSH私钥文件
           rm -f server_key.pem
+
+  scrape:
+    needs: deploy
+    runs-on: ubuntu-latest
+    name: 重新抓取 MeiliSearch 文档
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 运行抓取器
+        env:
+          # 替换为你自己的 MeiliSearch 主机 URL
+          HOST_URL: https://meilisearch.smianao.com
+          API_KEY: ${{ secrets.MEILISEARCH_MASTER_KEY }}
+          # 替换为配置文件的路径
+          CONFIG_FILE_PATH: https://raw.githubusercontent.com/Smianao/blog/refs/heads/master/MeiliSearch/config.json
+        run: |
+          docker run -t --rm \
+            -e MEILISEARCH_HOST_URL=$HOST_URL \
+            -e MEILISEARCH_API_KEY=$API_KEY \
+            -v $CONFIG_FILE_PATH:/docs-scraper/config.json \
+            getmeili/docs-scraper:latest pipenv run ./docs_scraper config.json
