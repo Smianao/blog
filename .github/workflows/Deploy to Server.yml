@@ -37,3 +37,18 @@ jobs:
         with: 
           path: src/.vuepress/dist
         
+          # Step 5: 清空服务器文件夹并发布到服务器
+      - name: Deploy to server
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }} # 您的服务器地址，从 GitHub Secrets 传入
+          SERVER_USER: ${{ secrets.SERVER_USER }} # 登录服务器的用户名，从 GitHub Secrets 传入
+          SERVER_KEY: ${{ secrets.SERVER_KEY }}   # 私钥，用于通过 SSH 登录服务器，从 GitHub Secrets 传入
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }} # 在服务器上部署的路径，从 GitHub Secrets 传入
+        run: |
+          echo "${SERVER_KEY}" > server_key.pem
+          chmod 600 server_key.pem
+          # Step 5.1 使用 SSH 清空远程文件夹
+          ssh -i server_key.pem ${SERVER_USER}@${SERVER_HOST} "rm -rf ${DEPLOY_PATH}/*"
+          # Step 5.2 上传新的文件
+          scp -i server_key.pem -r ./src/.vuepress/dist/* ${SERVER_USER}@${SERVER_HOST}:${DEPLOY_PATH}
+          rm -f server_key.pem
