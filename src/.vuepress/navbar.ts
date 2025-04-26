@@ -17,4 +17,9 @@ export default navbar([
     icon: "lineicons:microsoft",
     link: "/system/README.md",
   },
+  {
+    text: "旧版博客",
+    icon: "fa6-solid:blog",
+    link: "https://www.smianao.com/",
+  },
 ]);
