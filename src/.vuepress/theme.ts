@@ -84,14 +84,14 @@ export default hopeTheme({
   },
 
   // 加密配置
-  encrypt: {
-    config: {
-      "/demo/encrypt.html": {
-        hint: "Password: 1234",
-        password: "1234",
-      },
-    },
-  },
+  // encrypt: {
+  //   config: {
+  //     "/demo/encrypt.html": {
+  //       hint: "Password: 1234",
+  //       password: "1234",
+  //     },
+  //   },
+  // },
 
   // 多语言配置
   // metaLocales: {
@@ -175,8 +175,9 @@ export default hopeTheme({
 
   // 在这里配置主题提供的插件
   plugins: {
-    blog: true,
-
+    blog: {
+      excerptLength: 0,
+    },
     comment: {
       provider: "Twikoo",
       envId: "https://talk.smianao.com",
