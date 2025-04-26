@@ -1,6 +1,6 @@
 ---
 title: 系统相关
-icon: lineicons:microsoft
+icon: jam:disc
 breadcrumb: true
 #列表屏蔽该页面
 article: false

@@ -5,7 +5,7 @@ index: false
 #列表屏蔽该页面
 article: false
 dir:
-  order: 2
+  order: 1
 ---
 
 #测试页面

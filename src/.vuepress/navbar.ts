@@ -14,7 +14,7 @@ export default navbar([
   },
   {
     text: "系统相关",
-    icon: "lineicons:microsoft",
+    icon: "jam:disc",
     link: "/system/README.md",
   },
   {
