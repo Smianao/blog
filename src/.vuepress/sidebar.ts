@@ -2,7 +2,13 @@ import { sidebar } from "vuepress-theme-hope";
 
 export default sidebar({
       "/skill/": "structure",
-      "/soft/": "structure",
+      "/soft/": [
+        "" /* /soft/ */,
+        "Windows" /* /soft/Windows.html */,
+        "Android" /* /soft/Android.html */,
+        "Linux" /* /soft/Linux.html */,
+        "MacOS" /* /soft/MacOS.html */,
+      ],
       "/system/": [
       "" /* /system/ */,
       "Windows" /* /system/Windows.html */,
