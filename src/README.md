@@ -4,11 +4,14 @@ layout: BlogHome
 icon: house
 bgImage: https://webp.smianao.com/blogimg/BG_008.jpg
 bgImageDark: https://webp.smianao.com/blogimg/BG_003.png
+bgImageStyle:
+  background-attachment: fixed
 title: 主页
 heroImage: /logo.svg
 heroText: 鼠标迁徙
 heroFullScreen: true
 tagline: 一个不务正业的颓废中年男子，兜售一些看似没卵用的技能！
+
 projects:
   - icon: mdi:microsoft-edge
     name: 找寻软件
