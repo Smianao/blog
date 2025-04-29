@@ -134,6 +134,7 @@ export default hopeTheme({
     tabs: true,
     tasklist: true,
     vPre: true,
+    alert: true,
 
     // 取消注释它们如果你需要 TeX 支持
     // math: {
