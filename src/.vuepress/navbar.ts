@@ -14,7 +14,7 @@ export default navbar([
   },
   {
     text: "系统相关",
-    icon: "jam:disc",
+    icon: "eos-icons:system-group",
     link: "/system/README.md",
   },
   {

@@ -1,6 +1,6 @@
 ---
 title: 系统相关
-icon: jam:disc
+icon: eos-icons:system-group
 breadcrumb: true
 #列表屏蔽该页面
 article: false
