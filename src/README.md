@@ -1,6 +1,6 @@
 ---
 home: true
-layout: BlogHome
+layout: Blog
 icon: house
 bgImage: https://webp.smianao.com/blogimg/BG_008.jpg
 bgImageDark: https://webp.smianao.com/blogimg/BG_003.png

@@ -7,5 +7,6 @@ article: false
 dir:
   order: 2
 ---
-
-#测试页面
+<div class="catalog-display-container">
+  <Catalog base='/skill/skills' />
+</div>

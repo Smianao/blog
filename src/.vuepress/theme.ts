@@ -173,11 +173,11 @@ export default hopeTheme({
       envId: "https://talk.smianao.com",
     },
 
-    // meilisearch: {
-    //   host: 'https://meilisearch.smianao.com',
-    //   apiKey: 'c9340e98359c29d0ea8d9a525081aa780a36c6fa226e648d0f50a5857d90e2fc',
-    //   indexUid: 'blogsmianao',
-    // },
+    meilisearch: {
+      host: 'https://meilisearch.smianao.com',
+      apiKey: 'c9340e98359c29d0ea8d9a525081aa780a36c6fa226e648d0f50a5857d90e2fc',
+      indexUid: 'blogsmianao',
+    },
     // docsearch: {
     //   appId: "JD7QGFQB7H",
     //   apiKey: "90e3f699efaf6f1f572a3463f01c871f",
@@ -196,7 +196,7 @@ export default hopeTheme({
     // },
     components: {
       components: [
-        "ArtPlayer",
+        // "ArtPlayer",
         "Badge",
         "BiliBili",
         "CodePen",
@@ -213,7 +213,7 @@ export default hopeTheme({
     icon: {
       prefix: "fa6-solid:",
     },
-
+    
     // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
     // pwa: {
     //   favicon: "/favicon.ico",

@@ -8,4 +8,6 @@ dir:
   order: 3
 ---
 
-#测试页面
+<div class="catalog-display-container">
+  <Catalog base='/skill/server' />
+</div>
